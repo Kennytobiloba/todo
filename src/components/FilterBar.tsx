@@ -16,12 +16,12 @@ const tabs: { value: Filter; label: string }[] = [
 
 export function FilterBar({ filter, onFilter, activeCount, completedCount, onClearCompleted }: Props) {
   return (
-    <div className="flex items-center justify-between mt-5 pt-4 border-t-2 border-white/10 text-sm">
-      <span className="text-indigo-300 font-medium">
+    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mt-5 pt-4 border-t-2 border-white/10 text-sm">
+      <span className="text-indigo-300 font-medium text-center sm:text-left">
         {activeCount} {activeCount === 1 ? 'item' : 'items'} left
       </span>
 
-      <div className="flex gap-1">
+      <div className="flex justify-center gap-1">
         {tabs.map(tab => (
           <button
             key={tab.value}
@@ -40,7 +40,7 @@ export function FilterBar({ filter, onFilter, activeCount, completedCount, onCle
       <button
         onClick={onClearCompleted}
         disabled={completedCount === 0}
-        className="text-indigo-300 hover:text-rose-400 disabled:opacity-30 disabled:cursor-not-allowed transition font-medium text-xs"
+        className="text-center text-indigo-300 hover:text-rose-400 disabled:opacity-30 disabled:cursor-not-allowed transition font-medium text-xs"
       >
         Clear done
       </button>

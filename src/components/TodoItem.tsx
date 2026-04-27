@@ -37,7 +37,7 @@ export function TodoItem({ todo, onToggle, onDelete, onEdit }: Props) {
   };
 
   return (
-    <li className="group flex items-center gap-3 bg-white/5 hover:bg-white/10 border-2 border-transparent hover:border-violet-500/40 rounded-2xl px-4 py-3 transition">
+    <li className="group flex items-center gap-3 bg-white/5 hover:bg-white/10 border-2 border-transparent hover:border-violet-500/40 rounded-2xl px-3 sm:px-4 py-3 transition">
       {/* Checkbox */}
       <button
         onClick={() => onToggle(todo.id)}
@@ -79,13 +79,13 @@ export function TodoItem({ todo, onToggle, onDelete, onEdit }: Props) {
         )}
       </div>
 
-      {/* Priority badge */}
-      <span className={`flex-shrink-0 text-xs font-semibold px-2.5 py-1 rounded-full border ${priorityStyles[todo.priority]}`}>
+      {/* Priority badge — hidden on xs */}
+      <span className={`hidden sm:inline-flex flex-shrink-0 text-xs font-semibold px-2.5 py-1 rounded-full border ${priorityStyles[todo.priority]}`}>
         {todo.priority}
       </span>
 
-      {/* Actions */}
-      <div className="flex-shrink-0 flex gap-1 opacity-0 group-hover:opacity-100 transition">
+      {/* Actions — always visible on mobile, hover on desktop */}
+      <div className="flex-shrink-0 flex gap-1 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition">
         <button
           onClick={() => setEditing(true)}
           aria-label="Edit todo"

@@ -19,11 +19,11 @@ function App() {
   } = useTodos();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-violet-950 flex items-start justify-center pt-16 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-violet-950 flex items-start justify-center pt-8 sm:pt-16 px-3 sm:px-4 pb-8">
       <div className="w-full max-w-lg">
         {/* Header */}
-        <div className="mb-8 text-center">
-          <h1 className="text-5xl font-extrabold tracking-tight text-white mb-1 drop-shadow-lg">
+        <div className="mb-6 sm:mb-8 text-center">
+          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white mb-1 drop-shadow-lg">
             ✅ My Todos
           </h1>
           <p className="text-indigo-300 text-sm font-medium">
@@ -34,7 +34,7 @@ function App() {
         </div>
 
         {/* Card */}
-        <div className="bg-white/10 backdrop-blur-md rounded-3xl p-6 shadow-2xl border border-white/20">
+        <div className="bg-white/10 backdrop-blur-md rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-2xl border border-white/20">
           <AddTodo onAdd={addTodo} />
 
           {todos.length > 0 ? (
