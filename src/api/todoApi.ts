@@ -43,12 +43,12 @@ export const todoApi = {
 
   // POST — JSONPlaceholder echoes back a fake created resource
   async create(text: string, priority: Priority, order: number): Promise<Todo> {
-    const data = await request<ApiTodo>(BASE_URL, {
+    await request<ApiTodo>(BASE_URL, {
       method: 'POST',
       body: JSON.stringify({ title: text, completed: false, userId: 1 }),
     });
     return {
-      id: `local-${Date.now()}`, // fake unique id since API returns id:201 always
+      id: `local-${Date.now()}`,
       text,
       completed: false,
       priority,
