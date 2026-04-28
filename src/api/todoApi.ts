@@ -59,7 +59,6 @@ export const todoApi = {
 
   // PATCH — JSONPlaceholder accepts but doesn't persist
   async update(id: string, changes: Partial<Todo>): Promise<void> {
-    // Skip fake local IDs — JSONPlaceholder won't know them
     if (id.startsWith('local-')) return;
     await request(`${BASE_URL}/${id}`, {
       method: 'PATCH',

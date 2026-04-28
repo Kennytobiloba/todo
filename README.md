@@ -1,73 +1,116 @@
-# React + TypeScript + Vite
+# Todo App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React + TypeScript todo application with drag-and-drop, API integration, and Docker support.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Tech Stack
 
-## React Compiler
+- **React 19** + **TypeScript**
+- **Tailwind CSS v4** for styling
+- **@dnd-kit** for drag-and-drop reordering
+- **JSONPlaceholder** as mock REST API
+- **Vite** for bundling
+- **Nginx** for production serving
+- **Docker** for containerisation
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Running Locally (without Docker)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+**Prerequisites:** Node.js 18+
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+```bash
+# Install dependencies
+npm install
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Start development server
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+App runs at **http://localhost:5173**
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Running with Docker
+
+**Prerequisites:** Docker Desktop installed and running
+
+### 1. Build the image
+
+```bash
+docker build -t todo-app .
 ```
+
+### 2. Run the container
+
+```bash
+docker run -p 8080:80 todo-app
+```
+
+App runs at **http://localhost:8080**
+
+### Stop the container
+
+```bash
+# Find the container ID
+docker ps
+
+# Stop it
+docker stop <container-id>
+```
+
+---
+
+## Project Structure
+
+```
+src/
+├── api/
+│   └── todoApi.ts          # All API calls — swap BASE_URL for real backend
+├── hooks/
+│   └── useTodos.ts         # All state logic + API integration
+├── components/
+│   ├── Header.tsx           # Page title and subtitle
+│   ├── ErrorBanner.tsx      # Dismissable error messages
+│   ├── AddTodo.tsx          # Add todo form
+│   ├── LoadingSpinner.tsx   # Loading state
+│   ├── EmptyState.tsx       # Empty list state
+│   ├── TodoList.tsx         # Drag-and-drop list container
+│   ├── SortableTodoItem.tsx # DnD wrapper per item
+│   ├── TodoItem.tsx         # Single todo row
+│   └── FilterBar.tsx        # All / Active / Completed filters
+└── App.tsx                  # Root — composition only
+```
+
+---
+
+## Features
+
+| Feature | Status |
+|---|---|
+| Add todos | ✅ |
+| Mark complete | ✅ |
+| Delete todos | ✅ |
+| Filter All / Active / Completed | ✅ |
+| Clear completed | ✅ |
+| Drag-and-drop reorder | ✅ |
+| API integration (JSONPlaceholder) | ✅ |
+| Optimistic UI updates | ✅ |
+| Responsive (mobile + desktop) | ✅ |
+| Dockerised | ✅ |
+
+---
+
+## API Integration
+
+All API calls are centralised in `src/api/todoApi.ts`. The app uses [JSONPlaceholder](https://jsonplaceholder.typicode.com) as a mock backend.
+
+To connect a real backend, change one line:
+
+```ts
+// src/api/todoApi.ts
+const BASE_URL = 'https://your-real-api.com/todos';
+```
+
+No other files need to change.
