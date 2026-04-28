@@ -72,8 +72,8 @@ export const todoApi = {
     await request(`${BASE_URL}/${id}`, { method: 'DELETE' });
   },
 
-  async reorder(todos: Todo[]): Promise<void> {
+  async reorder(_todos: Todo[]): Promise<void> {
     // Reorder is local-only — no bulk PATCH on JSONPlaceholder
-    await Promise.resolve(todos);
+    await Promise.resolve();
   },
 };
