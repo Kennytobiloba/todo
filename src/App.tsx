@@ -1,18 +1,27 @@
 import { useTodos } from './hooks/useTodos';
+import { Header } from './components/Header';
+import { ErrorBanner } from './components/ErrorBanner';
 import { AddTodo } from './components/AddTodo';
-import { TodoItem } from './components/TodoItem';
+import { LoadingSpinner } from './components/LoadingSpinner';
+import { TodoList } from './components/TodoList';
+import { EmptyState } from './components/EmptyState';
 import { FilterBar } from './components/FilterBar';
 
 function App() {
   const {
     todos,
+    allTodos,
     filter,
     setFilter,
+    loading,
+    error,
+    setError,
     addTodo,
     toggleTodo,
     deleteTodo,
     editTodo,
     clearCompleted,
+    reorderTodos,
     activeCount,
     completedCount,
     totalCount,
@@ -21,44 +30,30 @@ function App() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-violet-950 flex items-start justify-center pt-8 sm:pt-16 px-3 sm:px-4 pb-8">
       <div className="w-full max-w-lg">
-        {/* Header */}
-        <div className="mb-6 sm:mb-8 text-center">
-          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white mb-1 drop-shadow-lg">
-            ✅ My Todos
-          </h1>
-          <p className="text-indigo-300 text-sm font-medium">
-            {totalCount === 0
-              ? 'Nothing here yet — add your first task!'
-              : `${completedCount} of ${totalCount} completed`}
-          </p>
-        </div>
 
-        {/* Card */}
+        <Header loading={loading} totalCount={totalCount} completedCount={completedCount} />
+
+        {error && <ErrorBanner message={error} onDismiss={() => setError(null)} />}
+
         <div className="bg-white/10 backdrop-blur-md rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-2xl border border-white/20">
           <AddTodo onAdd={addTodo} />
 
-          {todos.length > 0 ? (
-            <ul className="flex flex-col gap-2">
-              {todos.map(todo => (
-                <TodoItem
-                  key={todo.id}
-                  todo={todo}
-                  onToggle={toggleTodo}
-                  onDelete={deleteTodo}
-                  onEdit={editTodo}
-                />
-              ))}
-            </ul>
-          ) : (
-            <div className="text-center py-12 text-slate-300">
-              <svg className="w-12 h-12 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-              </svg>
-              <p className="text-sm text-slate-400">No tasks here</p>
-            </div>
+          {loading && <LoadingSpinner />}
+
+          {!loading && todos.length === 0 && <EmptyState />}
+
+          {!loading && todos.length > 0 && (
+            <TodoList
+              todos={todos}
+              allTodos={allTodos}
+              onToggle={toggleTodo}
+              onDelete={deleteTodo}
+              onEdit={editTodo}
+              onReorder={reorderTodos}
+            />
           )}
 
-          {totalCount > 0 && (
+          {totalCount > 0 && !loading && (
             <FilterBar
               filter={filter}
               onFilter={setFilter}
@@ -70,8 +65,9 @@ function App() {
         </div>
 
         <p className="text-center text-indigo-400 text-xs mt-5">
-          Double-click any task to edit · Data saved locally
+          Double-click to edit · Drag ⠿ to reorder · Data synced with API
         </p>
+
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ interface Props {
   onToggle: (id: string) => void;
   onDelete: (id: string) => void;
   onEdit: (id: string, text: string) => void;
+  dragHandleProps?: React.HTMLAttributes<HTMLButtonElement>;
 }
 
 const priorityStyles = {
@@ -14,7 +15,7 @@ const priorityStyles = {
   high: 'bg-rose-100 text-rose-500 border-rose-200',
 };
 
-export function TodoItem({ todo, onToggle, onDelete, onEdit }: Props) {
+export function TodoItem({ todo, onToggle, onDelete, onEdit, dragHandleProps }: Props) {
   const [editing, setEditing] = useState(false);
   const [editText, setEditText] = useState(todo.text);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -30,22 +31,31 @@ export function TodoItem({ todo, onToggle, onDelete, onEdit }: Props) {
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') handleEditSubmit();
-    if (e.key === 'Escape') {
-      setEditText(todo.text);
-      setEditing(false);
-    }
+    if (e.key === 'Escape') { setEditText(todo.text); setEditing(false); }
   };
 
   return (
     <li className="group flex items-center gap-3 bg-white/5 hover:bg-white/10 border-2 border-transparent hover:border-violet-500/40 rounded-2xl px-3 sm:px-4 py-3 transition">
+
+      {/* Drag handle */}
+      <button
+        {...dragHandleProps}
+        aria-label="Drag to reorder"
+        className="flex-shrink-0 cursor-grab active:cursor-grabbing text-white/20 hover:text-white/50 transition touch-none"
+      >
+        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M7 2a2 2 0 110 4 2 2 0 010-4zm6 0a2 2 0 110 4 2 2 0 010-4zM7 8a2 2 0 110 4 2 2 0 010-4zm6 0a2 2 0 110 4 2 2 0 010-4zm-6 6a2 2 0 110 4 2 2 0 010-4zm6 0a2 2 0 110 4 2 2 0 010-4z" />
+        </svg>
+      </button>
+
       {/* Checkbox */}
       <button
         onClick={() => onToggle(todo.id)}
         aria-label={todo.completed ? 'Mark incomplete' : 'Mark complete'}
         className={`flex-shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center transition ${
           todo.completed
-            ? 'bg-violet-500 border-violet-500 shadow-md shadow-violet-200'
-            : 'border-slate-300 hover:border-violet-400'
+            ? 'bg-violet-500 border-violet-500 shadow-md shadow-violet-900'
+            : 'border-white/30 hover:border-violet-400'
         }`}
       >
         {todo.completed && (
@@ -84,7 +94,7 @@ export function TodoItem({ todo, onToggle, onDelete, onEdit }: Props) {
         {todo.priority}
       </span>
 
-      {/* Actions — always visible on mobile, hover on desktop */}
+      {/* Actions */}
       <div className="flex-shrink-0 flex gap-1 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition">
         <button
           onClick={() => setEditing(true)}

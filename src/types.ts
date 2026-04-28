@@ -5,6 +5,7 @@ export interface Todo {
   text: string;
   completed: boolean;
   priority: Priority;
+  order: number;
   createdAt: number;
 }
 

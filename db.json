@@ -1,0 +1,9 @@
+{
+  "todos": [
+    { "id": "1", "text": "Read the project brief", "completed": true, "priority": "high", "order": 0, "createdAt": 1700000000000 },
+    { "id": "2", "text": "Set up the development environment", "completed": true, "priority": "high", "order": 1, "createdAt": 1700000001000 },
+    { "id": "3", "text": "Build the Todo UI", "completed": false, "priority": "medium", "order": 2, "createdAt": 1700000002000 },
+    { "id": "4", "text": "Integrate the mock API", "completed": false, "priority": "medium", "order": 3, "createdAt": 1700000003000 },
+    { "id": "5", "text": "Add drag and drop support", "completed": false, "priority": "low", "order": 4, "createdAt": 1700000004000 }
+  ]
+}
